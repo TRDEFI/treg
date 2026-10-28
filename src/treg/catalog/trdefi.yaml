@@ -26,39 +26,17 @@ limits: |
 # New platform and capability family. DeFi / on-chain liquidity is not represented
 # in the catalogue yet; these are proposed for review.
 proposed_capabilities:
-  platform:
-    slug: defi
-    label: DeFi liquidity
-    category: DeFi
-    summary: On-chain liquidity positions, live stablecoin market making, and prepare-only order building.
-  capabilities:
-    - id: defi.liquidity.stats
-      label: Liquidity catalogue statistics
-      summary: Aggregate totals, per-chain breakdown and the deepest pairs by volume and by position count.
-    - id: defi.liquidity.chains
-      label: Supported networks
-      summary: The live set of networks, their engines and the tokens a position can be built from.
-    - id: defi.liquidity.list
-      label: Open liquidity positions
-      summary: The live catalogue of open maker positions, filterable by network and pair.
-    - id: defi.liquidity.detail
-      label: Position detail
-      summary: One position by its strategy hash.
-    - id: defi.liquidity.quote
-      label: Indicative quote
-      summary: Simulate a swap against one position. Simulated on-chain; a gated position answers with a reason rather than a price.
-    - id: defi.liquidity.badge
-      label: Live metrics badge
-      summary: A shields.io endpoint payload so a README can show live catalogue metrics.
-    - id: defi.liquidity.prepare_position
-      label: Prepare a position
-      summary: Return the unsigned transactions that create a maker position. Prepare-only.
-    - id: defi.liquidity.prepare_swap
-      label: Prepare a swap
-      summary: Simulate a swap, then return the unsigned transactions for the caller's wallet to sign. Prepare-only.
-
+  defi.liquidity.stats: Aggregate catalogue totals, per-chain breakdown and the deepest pairs by volume and position count
+  defi.liquidity.chains: List supported networks, engine addresses and the tokens a position can be built from
+  defi.liquidity.list: List open maker positions, filterable by network and pair
+  defi.liquidity.detail: Get one maker position by its strategy hash
+  defi.liquidity.quote: Simulate a swap against one position and return a price or a gate reason
+  defi.liquidity.badge: Return a shields.io payload with live catalogue metrics
+  defi.liquidity.prepare_position: Return the unsigned transactions that create a maker position
+  defi.liquidity.prepare_swap: Simulate a swap and return the unsigned transactions for the caller's wallet
 endpoints:
   - id: trdefi.liquidity.stats
+    added: '2026-09-25'
     domain: defi
     capability: defi.liquidity.stats
     platform: defi
@@ -77,7 +55,7 @@ endpoints:
       value: 0
       currency: USD
       unit: call
-      source: documented
+      source: docs
       source_url: https://yield.trdefi.com/docs/api
       checked: '2026-09-25'
       confidence: verified
@@ -87,6 +65,7 @@ endpoints:
     docs_url: https://yield.trdefi.com/docs/overall-scheme
 
   - id: trdefi.liquidity.chains
+    added: '2026-09-25'
     domain: defi
     capability: defi.liquidity.chains
     platform: defi
@@ -105,7 +84,7 @@ endpoints:
       value: 0
       currency: USD
       unit: call
-      source: documented
+      source: docs
       checked: '2026-09-25'
       confidence: verified
     verified: '2026-09-25'
@@ -113,6 +92,7 @@ endpoints:
     docs_url: https://yield.trdefi.com/docs/overall-scheme
 
   - id: trdefi.liquidity.list
+    added: '2026-09-25'
     domain: defi
     capability: defi.liquidity.list
     platform: defi
@@ -153,7 +133,7 @@ endpoints:
       value: 0
       currency: USD
       unit: call
-      source: documented
+      source: docs
       checked: '2026-09-25'
       confidence: verified
     verified: '2026-09-25'
@@ -161,6 +141,7 @@ endpoints:
     docs_url: https://yield.trdefi.com/docs/overall-scheme
 
   - id: trdefi.liquidity.detail
+    added: '2026-09-25'
     domain: defi
     capability: defi.liquidity.detail
     platform: defi
@@ -176,16 +157,16 @@ endpoints:
           type: string
           required: true
           description: Strategy hash, 64 hex characters.
-          example: '0x5928c6b6c24c08615ddde8b832e6f4b135550601e2bb903dba4123c1b8ff8f2c'
+          example: '0x<strategyHash>'
     test_request:
       query:
-        hash: '0x5928c6b6c24c08615ddde8b832e6f4b135550601e2bb903dba4123c1b8ff8f2c'
+        hash: '0x<strategyHash>'
     cost:
       type: free
       value: 0
       currency: USD
       unit: call
-      source: documented
+      source: docs
       checked: '2026-09-25'
       confidence: verified
     verified: '2026-09-25'
@@ -193,6 +174,7 @@ endpoints:
     docs_url: https://yield.trdefi.com/docs/overall-scheme
 
   - id: trdefi.liquidity.quote
+    added: '2026-09-25'
     domain: defi
     capability: defi.liquidity.quote
     platform: defi
@@ -208,7 +190,7 @@ endpoints:
           type: string
           required: true
           description: Strategy hash, 64 hex characters.
-          example: '0x5928c6b6c24c08615ddde8b832e6f4b135550601e2bb903dba4123c1b8ff8f2c'
+          example: '0x<strategyHash>'
         chain:
           type: string
           required: false
@@ -226,7 +208,7 @@ endpoints:
           default: aToB
     test_request:
       query:
-        hash: '0x5928c6b6c24c08615ddde8b832e6f4b135550601e2bb903dba4123c1b8ff8f2c'
+        hash: '0x<strategyHash>'
         chain: ethereum
         amount: '1000000'
     cost:
@@ -234,7 +216,7 @@ endpoints:
       value: 0
       currency: USD
       unit: call
-      source: documented
+      source: docs
       checked: '2026-09-25'
       confidence: verified
     verified: '2026-09-25'
@@ -242,6 +224,7 @@ endpoints:
     docs_url: https://yield.trdefi.com/docs/overall-scheme
 
   - id: trdefi.liquidity.badge
+    added: '2026-09-25'
     domain: defi
     capability: defi.liquidity.badge
     platform: defi
@@ -266,7 +249,7 @@ endpoints:
       value: 0
       currency: USD
       unit: call
-      source: documented
+      source: docs
       checked: '2026-09-25'
       confidence: verified
     verified: '2026-09-25'
@@ -281,10 +264,11 @@ endpoints:
   # ---------------------------------------------------------------------------
 
   - id: trdefi.liquidity.prepare_position
+    added: '2026-09-25'
     domain: defi
     capability: defi.liquidity.prepare_position
     platform: defi
-    scope: per_account
+    scope: own_account
     method: POST
     path: /v1/positions
     name: Prepare a maker position
@@ -302,7 +286,7 @@ endpoints:
           required: true
           format: address
           description: The address that will sign. It must be the caller's own.
-          example: '0xf038179b39144d5b3585abddb2b7bbc70716722b'
+          example: '0x<makerWallet>'
         deposits:
           type: array
           required: true
@@ -322,7 +306,7 @@ endpoints:
     test_request:
       body:
         chain: arc
-        wallet: '0xf038179b39144d5b3585abddb2b7bbc70716722b'
+        wallet: '0x<makerWallet>'
         deposits: [{ symbol: USDC, amount: '1000000' }, { symbol: EURC, amount: '900000' }]
         makerFeeBps: 30000
     cost:
@@ -330,7 +314,7 @@ endpoints:
       value: 0
       currency: USD
       unit: call
-      source: documented
+      source: docs
       checked: '2026-09-25'
       confidence: verified
       note: No per-call charge. Revenue is the 0.05% protocol fee embedded in the position's signed order, paid on-chain when the position trades.
@@ -339,10 +323,11 @@ endpoints:
     docs_url: https://yield.trdefi.com/docs/overall-scheme
 
   - id: trdefi.liquidity.prepare_swap
+    added: '2026-09-25'
     domain: defi
     capability: defi.liquidity.prepare_swap
     platform: defi
-    scope: per_account
+    scope: own_account
     method: POST
     path: /v1/swaps
     name: Prepare a swap
@@ -359,12 +344,12 @@ endpoints:
           type: string
           required: true
           format: address
-          example: '0x28C6c06298d514Db089934071355E5743bf21d60'
+          example: '0x<wallet>'
         strategyHash:
           type: string
           required: true
           description: The maker position to swap against.
-          example: '0x5928c6b6c24c08615ddde8b832e6f4b135550601e2bb903dba4123c1b8ff8f2c'
+          example: '0x<strategyHash>'
         amount:
           type: string
           required: true
@@ -381,15 +366,15 @@ endpoints:
     test_request:
       body:
         chain: ethereum
-        wallet: '0x28C6c06298d514Db089934071355E5743bf21d60'
-        strategyHash: '0x5928c6b6c24c08615ddde8b832e6f4b135550601e2bb903dba4123c1b8ff8f2c'
+        wallet: '0x<wallet>'
+        strategyHash: '0x<strategyHash>'
         amount: '1000000'
     cost:
       type: free
       value: 0
       currency: USD
       unit: call
-      source: documented
+      source: docs
       checked: '2026-09-25'
       confidence: verified
       note: No per-call charge. The 0.05% protocol fee already sits inside the maker's order and is paid on-chain by the swap itself.
